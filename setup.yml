@@ -1,0 +1,126 @@
+---
+- name: Set up Gogs server
+  hosts: server
+  vars_files:
+    - "settings.yml"
+    - "ansible/arch-{{ ansible_architecture }}.yml"
+
+  tasks:
+  # prerequisites: git package and user
+  - name: install git
+    package: name=git state=present
+  - name: create service user 
+    user: name={{ gogs_user }}
+
+  # install/update Gogs
+  - name: download Gogs
+    get_url: url=https://cdn.gogs.io/{{ gogs_version }}/{{ gogs_arch }}.zip dest=/home/{{ gogs_user }}/gogs-{{ gogs_version }}.zip
+    register: dl_gogs
+    notify: restart gogs
+  - name: check for existing Gogs
+    when: dl_gogs.changed
+    stat: path=/home/{{ gogs_user }}/gogs
+    register: stat_gogs
+  - name: shut down Gogs
+    when: stat_gogs is defined and stat_gogs.stat.isdir is defined
+    service: name=gogs state=stopped
+  - name: move old gogs
+    when: stat_gogs is defined and stat_gogs.stat.isdir is defined
+    command: mv gogs gogs_old chdir=/home/{{ gogs_user }}
+  - name: install unzip
+    package: name=unzip state=present
+    when: dl_gogs.changed
+  - name: unpack new gogs
+    when: dl_gogs.changed
+    unarchive:
+      copy: no
+      src: /home/{{ gogs_user }}/gogs-{{ gogs_version }}.zip
+      dest: /home/{{ gogs_user }}
+      owner: "{{ gogs_user }}"
+  - name: copy gogs state
+    when: stat_gogs is defined and stat_gogs.stat.isdir is defined
+    command: cp -a gogs_old/custom gogs_old/data gogs_old/log gogs chdir=/home/{{ gogs_user }}
+  - name: remove old gogs
+    file: path=/home/{{ gogs_user }}/gogs_old state=absent
+  - name: creating Gogs conf directory
+    file: path=/home/{{ gogs_user }}/gogs/custom/conf state=directory owner={{ gogs_user }}
+
+  # create/update Gogs configuration
+  - name: configuring Gogs
+    template: src=ansible/gogs.ini.j2 dest=/home/{{ gogs_user }}/gogs/custom/conf/app.ini owner={{ gogs_user }}
+    notify: restart gogs
+  - name: setup Gogs service
+    template: src=ansible/gogs.service.j2 dest=/etc/systemd/system/gogs.service
+    notify: restart gogs
+
+  # set up reverse proxy
+  - name: install nginx
+    package: name=nginx state=present
+    notify: restart nginx
+  - name: configure nginx reverse proxy
+    template: src=ansible/nginx_gogs.conf.j2 dest=/etc/nginx/sites-available/gogs.conf
+    notify: restart nginx
+  - name: disable nginx default site
+    file: path=/etc/nginx/sites-enabled/default state=absent
+  - name: enable nginx gogs site
+    file: state=link src=/etc/nginx/sites-available/gogs.conf dest=/etc/nginx/sites-enabled/gogs.conf
+    notify: restart nginx
+
+  handlers:
+    - name: restart gogs
+      service: name=gogs state=restarted enabled=yes
+    - name: restart nginx
+      service: name=nginx state=restarted enabled=yes
+
+
+- name: Set up clients
+  hosts: client
+  tasks:
+  - name: install Git
+    package: name=git state=present
+  - name: create user account for workshop participant
+    user:
+      name: "{{ ansible_hostname }}"
+      generate_ssh_key: yes
+      password: "$5$qCOrKr8Tg0/1xzJ$txD0h7PeypwQOcCBFds9h0iWnFIYQ3i7B2XZtCYLoG2"
+
+
+- name: Set up default Gogs accounts
+  hosts: server
+  vars_files:
+    - "settings.yml"
+
+  tasks:
+  - name: create Gogs admin_user
+    command: ./gogs admin create-user --admin --name {{ admin_user }} --password {{ admin_pw }} --email {{ admin_user }}@{{ ansible_fqdn }}
+    args:
+      chdir: /home/{{ gogs_user }}/gogs
+      creates: /home/{{ gogs_user }}/repos/{{ admin_user }}
+    become: yes
+    become_method: su
+    become_user: "{{ gogs_user }}"
+
+  - name: create Gogs users for workshop participants
+    with_items: "{{ users }}"
+    uri:
+      url: http://127.0.0.1:3000/api/v1/admin/users
+      method: POST
+      user: "{{ admin_user }}"
+      password: "{{ admin_pw }}"
+      force_basic_auth: yes
+      body_format: json
+      body: '{"username": "{{ item }}", "email": "{{ item }}@{{ ansible_fqdn }}", "password": "{{ user_pw }}"}'
+      status_code: 201
+      creates: /home/{{ gogs_user }}/repos/{{ item }}
+
+  - name: add SSH key to user accounts
+    with_items: "{{ users }}"
+    uri:
+      url: http://127.0.0.1:3000/api/v1/admin/users/{{ item }}/keys
+      method: POST
+      user: "{{ admin_user }}"
+      password: "{{ admin_pw }}"
+      force_basic_auth: yes
+      body_format: json
+      body: '{"title": "default", "key": "{{ user_key }}"}'
+      status_code: 201

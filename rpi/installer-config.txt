@@ -1,0 +1,5 @@
+rootpw=fitforgit
+hostname=ffg
+
+packages=python,unzip,git
+rootfstype=f2fs
