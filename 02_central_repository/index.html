@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Central Repository - Fit for Git</title>
+  
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Central Repository";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script>
+  <script src="../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../01_recording_changes/" class="icon icon-home"> Fit for Git</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Course</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../01_recording_changes/">Recording Changes</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Central Repository</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#central-repository">Central Repository</a></li>
+                
+                    <li><a class="toctree-l4" href="#clones">Clones</a></li>
+                
+                    <li><a class="toctree-l4" href="#pulling-updates-from-upstream">Pulling updates from upstream</a></li>
+                
+                    <li><a class="toctree-l4" href="#resolving-conflicts">Resolving conflicts</a></li>
+                
+                    <li><a class="toctree-l4" href="#uploading-changes">"Uploading" changes</a></li>
+                
+                    <li><a class="toctree-l4" href="#training-time">Training Time</a></li>
+                
+            
+            </ul>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../03_pull_requests/">Pull Requests</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../01_recording_changes/">Fit for Git</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../01_recording_changes/">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Course &raquo;</li>
+        
+      
+    
+    <li>Central Repository</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="central-repository">Central Repository</h1>
+<h2 id="clones">Clones</h2>
+<pre><code>git clone git@ffg:ffg/hello.git
+cd hello
+ls
+git status
+</code></pre>
+<p>This has created a <em>clone</em> of the hello.git repository. The repository we
+cloned from is called its <em>origin</em>.</p>
+<p><strong>hints</strong></p>
+<ul>
+<li>by convention, central repositories have the postfix <code>.git</code>, while
+  repositories we can make commits in do not</li>
+</ul>
+<h2 id="pulling-updates-from-upstream">Pulling updates from upstream</h2>
+<pre><code>git pull
+</code></pre>
+<p>Now the history of the repository looks like this:</p>
+<pre><code>*   8c577b0 Merge branch 'master' of http://ffg/ffg/hello.git
+|\  
+| * b983d4c Linux is also cool
+* | e8fa16e Start collecting numbers
+|/  
+* 3adcc80 My second git commit
+* b323f69 My first git commit
+</code></pre>
+<p><strong>hints</strong></p>
+<ul>
+<li>the above graph was printed by <code>git log --graph --oneline</code></li>
+</ul>
+<h2 id="resolving-conflicts">Resolving conflicts</h2>
+<pre><code>git pull
+</code></pre>
+<p>In <code>cool_stuff.txt</code>:</p>
+<pre><code class="conflict">Tübix
+Git
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+reveal.js
+=======
+Linux
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; b983d4cc25261780d3b2a21a142d4750394c5c77
+</code></pre>
+
+<p>Recommended solution:</p>
+<pre><code>git mergetool
+git commit
+</code></pre>
+<h2 id="uploading-changes">"Uploading" changes</h2>
+<pre><code>git push
+# Counting objects: 3, done.
+# Writing objects: 100% (3/3), 265 bytes | 0 bytes/s, done.
+# Total 3 (delta 0), reused 0 (delta 0)
+# To git@ffg:ffg/hello.git
+#    d039e72..325b819  master -&gt; master
+
+git push
+# Counting objects: 3, done.
+# Writing objects: 100% (3/3), 265 bytes | 0 bytes/s, done.
+# Total 3 (delta 0), reused 0 (delta 0)
+# To git@ffg:ffg/hello.git
+#  ! [rejected]        master -&gt; master (non-fast-forward)
+# error: failed to push some refs to 'git@ffg:ffg/hello.git'
+# hint: Updates were rejected because the tip of your current branch is behind
+# hint: its remote counterpart. Integrate the remote changes (e.g.
+# hint: 'git pull ...') before pushing again.
+# hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+</code></pre>
+<h2 id="training-time">Training Time</h2>
+<ol>
+<li>get a clone of <a href="http://ffg/ffg/hello.git">http://ffg/ffg/hello.git</a></li>
+<li>add a new file to your clone</li>
+<li>upload your change and get the changes of other participants</li>
+<li>repeat with the fie <code>cool_stuff.txt</code> (this should give conflits which you need to resolve)</li>
+</ol>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../03_pull_requests/" class="btn btn-neutral float-right" title="Pull Requests"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../01_recording_changes/" class="btn btn-neutral" title="Recording Changes"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../01_recording_changes/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../03_pull_requests/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>

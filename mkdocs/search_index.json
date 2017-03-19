@@ -1,0 +1,99 @@
+{
+    "docs": [
+        {
+            "location": "/01_recording_changes/",
+            "text": "Recording Changes\n\n\nFirst-time setup\n\n\ngit config --global user.name \"Your Name\"\ngit config --global user.email user@domain.tld\n\n\n\nGit is a distributed system, so it uses email addresses to uniquely identify users.\n\n\nhints\n\n\n\n\ntry \ngit help config\n\n\n\n\nYour first repository\n\n\ngit init repo\ncd repo\n\n\n\nThis creates a new, empty repository which lives only on your computer (for\nnow).\n\n\necho git > cool_stuff.txt\ngit status\n\n\n\nhints\n\n\n\n\nyou can also run \ngit init\n without argument to start tracking existing files\n\n\n\n\nStaging changes\n\n\ngit add cool_stuff.txt\ngit status\n\n\n\nThis adds a snapshot of \ncool_stuff.txt\n to the staging area. Changes made\nafterwards will not be recorded, unless you run \ngit add\n again.\n\n\nThe staging area can track only one version of each file, so we're not done yet.\n\n\nhints\n\n\n\n\nyou can also add entire directories with \ngit add\n\n\n\n\nCommitting (to) a version\n\n\ngit commit\ngit status\n\ngitk\n\n\n\nhints\n\n\n\n\nyou can skip \ngit add\n for files known to Git using \ngit commit -a\n\n\n\n\nThe why of commit messages\n\n\n\n\nthe who/when/what of a change is recorded automatically\n\n\ncommit messages primarily explain the \"why\"\n\n\nthey summarize changes for history overviews (e.g. in \ngitk\n)\n\n\nthey may contain pointers to ticket IDs for future reference\n\n\n\n\nThe how of commit messages\n\n\nFirst line: very short summary, what changed?\n\nAfter a blank line follows the answer to the \"why\". What was the motivation\nfor the change? How is the need addressed by this commit?\n\nIf applicable: Which alternatives were considered, and why were they\ndiscarded?\n\n\n\n\nTraining Time\n\n\ngit config --global user.name \"Your Name\"\ngit config --global user.email user@domain.tld\n\n\n\n\n\ncreate a new, empty repository\n\n\ncommit some changes\n\n\nview the resulting history\n\n\n\n\nfreestyle\n\n\n\n\nlook at the contents of the \n.git\n directory - what changes at each step?",
+            "title": "Recording Changes"
+        },
+        {
+            "location": "/01_recording_changes/#recording-changes",
+            "text": "",
+            "title": "Recording Changes"
+        },
+        {
+            "location": "/01_recording_changes/#first-time-setup",
+            "text": "git config --global user.name \"Your Name\"\ngit config --global user.email user@domain.tld  Git is a distributed system, so it uses email addresses to uniquely identify users.  hints   try  git help config",
+            "title": "First-time setup"
+        },
+        {
+            "location": "/01_recording_changes/#your-first-repository",
+            "text": "git init repo\ncd repo  This creates a new, empty repository which lives only on your computer (for\nnow).  echo git > cool_stuff.txt\ngit status  hints   you can also run  git init  without argument to start tracking existing files",
+            "title": "Your first repository"
+        },
+        {
+            "location": "/01_recording_changes/#staging-changes",
+            "text": "git add cool_stuff.txt\ngit status  This adds a snapshot of  cool_stuff.txt  to the staging area. Changes made\nafterwards will not be recorded, unless you run  git add  again.  The staging area can track only one version of each file, so we're not done yet.  hints   you can also add entire directories with  git add",
+            "title": "Staging changes"
+        },
+        {
+            "location": "/01_recording_changes/#committing-to-a-version",
+            "text": "git commit\ngit status\n\ngitk  hints   you can skip  git add  for files known to Git using  git commit -a",
+            "title": "Committing (to) a version"
+        },
+        {
+            "location": "/01_recording_changes/#the-why-of-commit-messages",
+            "text": "the who/when/what of a change is recorded automatically  commit messages primarily explain the \"why\"  they summarize changes for history overviews (e.g. in  gitk )  they may contain pointers to ticket IDs for future reference",
+            "title": "The why of commit messages"
+        },
+        {
+            "location": "/01_recording_changes/#the-how-of-commit-messages",
+            "text": "First line: very short summary, what changed?\n\nAfter a blank line follows the answer to the \"why\". What was the motivation\nfor the change? How is the need addressed by this commit?\n\nIf applicable: Which alternatives were considered, and why were they\ndiscarded?",
+            "title": "The how of commit messages"
+        },
+        {
+            "location": "/01_recording_changes/#training-time",
+            "text": "git config --global user.name \"Your Name\"\ngit config --global user.email user@domain.tld   create a new, empty repository  commit some changes  view the resulting history   freestyle   look at the contents of the  .git  directory - what changes at each step?",
+            "title": "Training Time"
+        },
+        {
+            "location": "/02_central_repository/",
+            "text": "Central Repository\n\n\nClones\n\n\ngit clone git@ffg:ffg/hello.git\ncd hello\nls\ngit status\n\n\n\nThis has created a \nclone\n of the hello.git repository. The repository we\ncloned from is called its \norigin\n.\n\n\nhints\n\n\n\n\nby convention, central repositories have the postfix \n.git\n, while\n  repositories we can make commits in do not\n\n\n\n\nPulling updates from upstream\n\n\ngit pull\n\n\n\nNow the history of the repository looks like this:\n\n\n*   8c577b0 Merge branch 'master' of http://ffg/ffg/hello.git\n|\\  \n| * b983d4c Linux is also cool\n* | e8fa16e Start collecting numbers\n|/  \n* 3adcc80 My second git commit\n* b323f69 My first git commit\n\n\n\nhints\n\n\n\n\nthe above graph was printed by \ngit log --graph --oneline\n\n\n\n\nResolving conflicts\n\n\ngit pull\n\n\n\nIn \ncool_stuff.txt\n:\n\n\nT\u00fcbix\nGit\n<<<<<<< HEAD\nreveal.js\n=======\nLinux\n>>>>>>> b983d4cc25261780d3b2a21a142d4750394c5c77\n\n\n\n\nRecommended solution:\n\n\ngit mergetool\ngit commit\n\n\n\n\"Uploading\" changes\n\n\ngit push\n# Counting objects: 3, done.\n# Writing objects: 100% (3/3), 265 bytes | 0 bytes/s, done.\n# Total 3 (delta 0), reused 0 (delta 0)\n# To git@ffg:ffg/hello.git\n#    d039e72..325b819  master -> master\n\ngit push\n# Counting objects: 3, done.\n# Writing objects: 100% (3/3), 265 bytes | 0 bytes/s, done.\n# Total 3 (delta 0), reused 0 (delta 0)\n# To git@ffg:ffg/hello.git\n#  ! [rejected]        master -> master (non-fast-forward)\n# error: failed to push some refs to 'git@ffg:ffg/hello.git'\n# hint: Updates were rejected because the tip of your current branch is behind\n# hint: its remote counterpart. Integrate the remote changes (e.g.\n# hint: 'git pull ...') before pushing again.\n# hint: See the 'Note about fast-forwards' in 'git push --help' for details.\n\n\n\nTraining Time\n\n\n\n\nget a clone of \nhttp://ffg/ffg/hello.git\n\n\nadd a new file to your clone\n\n\nupload your change and get the changes of other participants\n\n\nrepeat with the fie \ncool_stuff.txt\n (this should give conflits which you need to resolve)",
+            "title": "Central Repository"
+        },
+        {
+            "location": "/02_central_repository/#central-repository",
+            "text": "",
+            "title": "Central Repository"
+        },
+        {
+            "location": "/02_central_repository/#clones",
+            "text": "git clone git@ffg:ffg/hello.git\ncd hello\nls\ngit status  This has created a  clone  of the hello.git repository. The repository we\ncloned from is called its  origin .  hints   by convention, central repositories have the postfix  .git , while\n  repositories we can make commits in do not",
+            "title": "Clones"
+        },
+        {
+            "location": "/02_central_repository/#pulling-updates-from-upstream",
+            "text": "git pull  Now the history of the repository looks like this:  *   8c577b0 Merge branch 'master' of http://ffg/ffg/hello.git\n|\\  \n| * b983d4c Linux is also cool\n* | e8fa16e Start collecting numbers\n|/  \n* 3adcc80 My second git commit\n* b323f69 My first git commit  hints   the above graph was printed by  git log --graph --oneline",
+            "title": "Pulling updates from upstream"
+        },
+        {
+            "location": "/02_central_repository/#resolving-conflicts",
+            "text": "git pull  In  cool_stuff.txt :  T\u00fcbix\nGit\n<<<<<<< HEAD\nreveal.js\n=======\nLinux\n>>>>>>> b983d4cc25261780d3b2a21a142d4750394c5c77  Recommended solution:  git mergetool\ngit commit",
+            "title": "Resolving conflicts"
+        },
+        {
+            "location": "/02_central_repository/#uploading-changes",
+            "text": "git push\n# Counting objects: 3, done.\n# Writing objects: 100% (3/3), 265 bytes | 0 bytes/s, done.\n# Total 3 (delta 0), reused 0 (delta 0)\n# To git@ffg:ffg/hello.git\n#    d039e72..325b819  master -> master\n\ngit push\n# Counting objects: 3, done.\n# Writing objects: 100% (3/3), 265 bytes | 0 bytes/s, done.\n# Total 3 (delta 0), reused 0 (delta 0)\n# To git@ffg:ffg/hello.git\n#  ! [rejected]        master -> master (non-fast-forward)\n# error: failed to push some refs to 'git@ffg:ffg/hello.git'\n# hint: Updates were rejected because the tip of your current branch is behind\n# hint: its remote counterpart. Integrate the remote changes (e.g.\n# hint: 'git pull ...') before pushing again.\n# hint: See the 'Note about fast-forwards' in 'git push --help' for details.",
+            "title": "\"Uploading\" changes"
+        },
+        {
+            "location": "/02_central_repository/#training-time",
+            "text": "get a clone of  http://ffg/ffg/hello.git  add a new file to your clone  upload your change and get the changes of other participants  repeat with the fie  cool_stuff.txt  (this should give conflits which you need to resolve)",
+            "title": "Training Time"
+        },
+        {
+            "location": "/03_pull_requests/",
+            "text": "Pull Requests\n\n\nTraining Time\n\n\n\n\nopen \nhttp://ffg/ffg/hello\n in a browser and fork the repository\n\n\nclone \nyour fork\n and make some changes to it\n\n\ncreate a pull request from your changes",
+            "title": "Pull Requests"
+        },
+        {
+            "location": "/03_pull_requests/#pull-requests",
+            "text": "",
+            "title": "Pull Requests"
+        },
+        {
+            "location": "/03_pull_requests/#training-time",
+            "text": "open  http://ffg/ffg/hello  in a browser and fork the repository  clone  your fork  and make some changes to it  create a pull request from your changes",
+            "title": "Training Time"
+        }
+    ]
+}
