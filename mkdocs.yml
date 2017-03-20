@@ -2,6 +2,7 @@ site_name: Fit for Git
 theme: readthedocs
 
 pages:
+- Home: "index.md"
 - Course:
   - "Recording Changes": "01_recording_changes.md"
   - "Central Repository": "02_central_repository.md"
