@@ -8,31 +8,6 @@ automatically converted to a
 [presentation](http://nome.github.io/FitForGit/slides.html) and to an [online
 copy](http://nome.github.io/FitForGit) as reference for participants.
 
-Creating slides
----------------
-
-Install [Pandoc](https://pandoc.org) (package manager, or to your home
-directory using the [installation
-instructions](http://pandoc.org/installing.html)). Then:
-
-    git clone --depth=1 https://github.com/hakimel/reveal.js
-    pandoc -s --self-contained -t revealjs docs/index.md docs/0* -o slides.html
-
-See [Pandoc User's
-Guide](http://pandoc.org/MANUAL.html#producing-slide-shows-with-pandoc) for
-alternative slideshow formats.
-
-Creating an online copy
------------------------
-
-Install [MkDocs](http://www.mkdocs.org/) (package manager or `pip install
-mkdocs`), then:
-
-    mkdocs build
-
-If you make changes to the docs, you can run `mkdocs serve` to get a live
-preview of the rendered version.
-
 Setting up the server
 ---------------------
 
@@ -90,4 +65,29 @@ Now we're ready to start the installation (your current working directory must
 be the root of this repository):
 
     ansible-playboook setup.yml
+
+Creating slides
+---------------
+
+Install [Pandoc](https://pandoc.org) (package manager, or to your home
+directory using the [installation
+instructions](http://pandoc.org/installing.html)). Then:
+
+    git clone --depth=1 https://github.com/hakimel/reveal.js
+    pandoc -s --self-contained -t revealjs docs/index.md docs/0* -o slides.html
+
+See [Pandoc User's
+Guide](http://pandoc.org/MANUAL.html#producing-slide-shows-with-pandoc) for
+alternative slideshow formats.
+
+Creating an online copy
+-----------------------
+
+Install [MkDocs](http://www.mkdocs.org/) (package manager or `pip install
+mkdocs`), then:
+
+    mkdocs build
+
+If you make changes to the docs, you can run `mkdocs serve` to get a live
+preview of the rendered version.
 
