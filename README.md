@@ -3,7 +3,7 @@ Fit for Git
 
 This is a toolbox for organizing [Git](https://git-scm.com) workshops /
 training events. It contains step-by-step instructions for setting up the
-infrastructure, as well as [workshop content](docs/index.md) that is
+infrastructure, as well as [workshop content](docs/) that is
 automatically converted to a
 [presentation](http://nome.github.io/FitForGit/slides.html) and to an [online
 copy](http://nome.github.io/FitForGit) as reference for participants.
@@ -46,7 +46,8 @@ We only need a minimal Linux installation and Python on both server and client.
 2. create a FAT32 partition on an empty SD card
 3. unzip `raspberrypi-ua-netinst-*.zip` to the SD card
 4. on the SD card, create a directory `raspberrypi-ua-netinst/config` and copy
-   `rpi/installer-config.txt` from this repository to the directory you created
+   [`rpi/installer-config.txt`](rpi/installer-config.txt) from this repository
+   to the directory you created
 5. edit `raspberrypi-ua-netinst/config/installer-config.txt` and choose a
    custom root password (recommended); the default one is `fitforgit`
 6. insert SD card into the pi, connect network and power, wait about 10-20 minutes
@@ -77,11 +78,11 @@ package manager or, if you don't have root access, using pip:
     pip install ansible
     export PATH=~/.local/bin:$PATH
 
-Edit the file `ansible/hosts`, change the name of the server (if it is
-reachable under a name other than `ffg`) and add some clients hostnames
-(optionally).
+Edit the file [`ansible/hosts`](ansible/hosts), change the name of the server
+(if it is reachable under a name other than `ffg`) and add some clients
+hostnames (optionally).
 
-Edit the file `settings.yml` and change `admin_pw` to a password of
+Edit the file [`settings.yml`](settings.yml) and change `admin_pw` to a password of
 your choice (unless you want to risk inquisitive participants taking over your
 infrastructure). Optionally, adjust the other settings.
 
