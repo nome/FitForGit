@@ -53,13 +53,11 @@ package manager or, if you don't have root access, using pip:
     pip install ansible
     export PATH=~/.local/bin:$PATH
 
-Edit the file [`ansible/hosts`](ansible/hosts), change the name of the server
-(if it is reachable under a name other than `ffg`) and add some clients
-hostnames (optionally).
-
-Edit the file [`settings.yml`](settings.yml) and change `admin_pw` to a password of
-your choice (unless you want to risk inquisitive participants taking over your
-infrastructure). Optionally, adjust the other settings.
+Edit the file [`settings.ini`](settings.ini), change the name of the server (if it is
+reachable under a name other than `ffg`) and add some clients hostnames
+(optionally). Change `admin_pw` to a password of your choice (unless you want
+to risk inquisitive participants taking over your infrastructure). Optionally,
+adjust the other settings.
 
 Now we're ready to start the installation (your current working directory must
 be the root of this repository):

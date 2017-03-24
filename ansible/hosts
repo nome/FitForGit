@@ -1,6 +1,0 @@
-[server]
-ffg
-
-[client]
-# enter names of hosts here which you want to prepare for workshop participants
-# (setting up a default user account etc)

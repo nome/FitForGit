@@ -2,7 +2,6 @@
 - name: Set up Gogs server
   hosts: server
   vars_files:
-    - "settings.yml"
     - "ansible/arch-{{ ansible_architecture }}.yml"
 
   tasks:
@@ -78,7 +77,7 @@
   hosts: server
   tasks:
   - name: check whether Gogs is running
-    wait_for: port=3000
+    wait_for: port={{ gogs_port }}
   - name: check whether reverse proxy is running
     local_action: wait_for port=80
 
@@ -97,8 +96,9 @@
 
 - name: Set up default Gogs accounts
   hosts: server
-  vars_files:
-    - "settings.yml"
+
+  vars:
+    gogs_api: http://127.0.0.1:{{ gogs_port }}/api/v1
 
   tasks:
   - name: create Gogs admin_user
@@ -113,7 +113,7 @@
   - name: create Gogs users for workshop participants
     with_items: "{{ users }}"
     uri:
-      url: http://127.0.0.1:3000/api/v1/admin/users
+      url: "{{ gogs_api }}/admin/users"
       method: POST
       user: "{{ admin_user }}"
       password: "{{ admin_pw }}"
@@ -126,7 +126,7 @@
   - name: add SSH key to user accounts
     with_items: "{{ users }}"
     uri:
-      url: http://127.0.0.1:3000/api/v1/admin/users/{{ item }}/keys
+      url: "{{ gogs_api }}/admin/users/{{ item }}/keys"
       method: POST
       user: "{{ admin_user }}"
       password: "{{ admin_pw }}"

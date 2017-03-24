@@ -1,0 +1,3 @@
+---
+gogs_port: 3000
+gogs_user: git
