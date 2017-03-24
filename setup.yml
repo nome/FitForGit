@@ -14,34 +14,35 @@
 
   # install/update Gogs
   - name: download Gogs
-    get_url: url=https://cdn.gogs.io/{{ gogs_version }}/{{ gogs_arch }}.zip dest=/home/{{ gogs_user }}/gogs-{{ gogs_version }}.zip
+    get_url:
+      url: https://cdn.gogs.io/{{ gogs_version }}/{{ gogs_arch }}.zip
+      dest: /home/{{ gogs_user }}/gogs-{{ gogs_version }}.zip
     register: dl_gogs
     notify: restart gogs
-  - name: check for existing Gogs
+  - block:
+    - name: check for existing Gogs
+      stat: path=/home/{{ gogs_user }}/gogs
+      register: stat_gogs
+    - name: shut down Gogs
+      when: stat_gogs.stat.isdir is defined
+      service: name=gogs state=stopped
+    - name: move old gogs
+      when: stat_gogs.stat.isdir is defined
+      command: mv gogs gogs_old chdir=/home/{{ gogs_user }}
+    - name: install unzip
+      package: name=unzip state=present
+    - name: unpack new gogs
+      unarchive:
+        copy: no
+        src: /home/{{ gogs_user }}/gogs-{{ gogs_version }}.zip
+        dest: /home/{{ gogs_user }}
+        owner: "{{ gogs_user }}"
+    - name: copy gogs state
+      when: stat_gogs.stat.isdir is defined
+      command: cp -a gogs_old/custom gogs_old/data gogs_old/log gogs chdir=/home/{{ gogs_user }}
+    - name: remove old gogs
+      file: path=/home/{{ gogs_user }}/gogs_old state=absent
     when: dl_gogs.changed
-    stat: path=/home/{{ gogs_user }}/gogs
-    register: stat_gogs
-  - name: shut down Gogs
-    when: stat_gogs is defined and stat_gogs.stat.isdir is defined
-    service: name=gogs state=stopped
-  - name: move old gogs
-    when: stat_gogs is defined and stat_gogs.stat.isdir is defined
-    command: mv gogs gogs_old chdir=/home/{{ gogs_user }}
-  - name: install unzip
-    package: name=unzip state=present
-    when: dl_gogs.changed
-  - name: unpack new gogs
-    when: dl_gogs.changed
-    unarchive:
-      copy: no
-      src: /home/{{ gogs_user }}/gogs-{{ gogs_version }}.zip
-      dest: /home/{{ gogs_user }}
-      owner: "{{ gogs_user }}"
-  - name: copy gogs state
-    when: stat_gogs is defined and stat_gogs.stat.isdir is defined
-    command: cp -a gogs_old/custom gogs_old/data gogs_old/log gogs chdir=/home/{{ gogs_user }}
-  - name: remove old gogs
-    file: path=/home/{{ gogs_user }}/gogs_old state=absent
   - name: creating Gogs conf directory
     file: path=/home/{{ gogs_user }}/gogs/custom/conf state=directory owner={{ gogs_user }}
 
