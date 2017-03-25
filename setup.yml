@@ -90,7 +90,7 @@
 - name: Set up clients
   hosts: client
   vars:
-    workshop_user: "{{ inventory_hostname }}"
+    workshop_user: "{{ inventory_hostname | regex_replace('[^A-Za-z0-9]', '') | truncate(8, true, '') }}"
   tasks:
   - name: install Git
     package: name=git state=present
@@ -112,7 +112,7 @@
 
   vars:
     gogs_api: http://{{ ansible_fqdn }}/api/v1
-    workshop_users: "{{ users|default(groups['client']) }}"
+    workshop_users: "{{ users | default(groups['client'] | map('regex_replace', '[^A-Za-z0-9]', '') | map('truncate', 8, true, '') | list)}}"
 
   tasks:
   - name: create Gogs admin_user
