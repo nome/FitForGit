@@ -1,3 +1,5 @@
+[![FitForGit](https://travis-ci.org/nome/FitForGit.png)](https://travis-ci.org/nome/FitForGit)
+
 Fit for Git
 ===========
 
