@@ -36,7 +36,9 @@ need to be able to SSH as root into each before you proceed.
 
 First, generate an SSH identity (if you don't already have one), add it to the
 running `ssh-agent` and distribute it to the target machines. This allows us to
-avoid entering the root password(s) repeatedly.
+avoid entering the root password(s) repeatedly. If you've cloned this
+repository directly to the server and you're not setting up clients, you can
+skip this step.
 
     ssh-keygen -t ed25519
     ssh-add ~/.ssh/id_ed25519
@@ -53,11 +55,12 @@ package manager or, if you don't have root access, using pip:
     pip install ansible
     export PATH=~/.local/bin:$PATH
 
-Edit the file [`settings.ini`](settings.ini), change the name of the server (if it is
-reachable under a name other than `ffg`) and add some clients hostnames
-(optionally). Change `admin_pw` to a password of your choice (unless you want
-to risk inquisitive participants taking over your infrastructure). Optionally,
-adjust the other settings.
+Edit the file [`settings.ini`](settings.ini) and change `admin_pw` to a
+password of your choice (unless you want to risk inquisitive participants
+taking over your infrastructure). If you want to install the server on a
+machine other than the one where you cloned this repository, replace
+`localhost` with the name of the server. Optionally, add client hostnames
+and/or adjust the other settings.
 
 Now we're ready to start the installation (your current working directory must
 be the root of this repository):
