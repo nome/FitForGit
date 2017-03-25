@@ -6,8 +6,9 @@ sudo: required
 
 install:
   - sudo pip install ansible mkdocs
+  - echo localhost >> settings.ini
+  - ansible-playbook install -r ansible/roles.txt
 
 script:
-  - echo localhost >> settings.ini
   - sudo ansible-playbook setup.yml -c local -e ssh_key_type=rsa
   - mkdocs build

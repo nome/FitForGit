@@ -1,88 +1,22 @@
 ---
 - name: Set up Gogs server
   hosts: server
-  vars_files:
-    - "ansible/arch-{{ ansible_architecture }}.yml"
 
-  tasks:
-  # prerequisites: git package and user
-  - name: install git
-    package: name=git state=present
-  - name: create service user 
-    user: name={{ gogs_user }}
+  roles:
+    - role: nome.gogs
+      gogs_app_name: FitForGit
+      gogs_admin: "{{ admin_user }}"
+      gogs_admin_password: "{{ admin_pw }}"
+      gogs_bind_addr: 127.0.0.1
+      gogs_url: http://{{ ansible_fqdn }}
 
-  # install/update Gogs
-  - name: download Gogs
-    get_url:
-      url: https://github.com/gogits/gogs/releases/download/v{{ gogs_version }}/{{ gogs_arch }}.zip
-      dest: /home/{{ gogs_user }}/gogs-{{ gogs_version }}.zip
-    register: dl_gogs
-    notify: restart gogs
-  - block:
-    - name: check for existing Gogs
-      stat: path=/home/{{ gogs_user }}/gogs
-      register: stat_gogs
-    - name: shut down Gogs
-      when: stat_gogs.stat.isdir is defined
-      service: name=gogs state=stopped
-    - name: move old gogs
-      when: stat_gogs.stat.isdir is defined
-      command: mv gogs gogs_old chdir=/home/{{ gogs_user }}
-    - name: install unzip
-      package: name=unzip state=present
-    - name: unpack new gogs
-      unarchive:
-        copy: no
-        src: /home/{{ gogs_user }}/gogs-{{ gogs_version }}.zip
-        dest: /home/{{ gogs_user }}
-        owner: "{{ gogs_user }}"
-    - name: copy gogs state
-      when: stat_gogs.stat.isdir is defined
-      command: cp -a gogs_old/custom gogs_old/data gogs_old/log gogs chdir=/home/{{ gogs_user }}
-    - name: remove old gogs
-      file: path=/home/{{ gogs_user }}/gogs_old state=absent
-    when: dl_gogs.changed
-  - name: creating Gogs conf directory
-    file: path=/home/{{ gogs_user }}/gogs/custom/conf state=directory owner={{ gogs_user }}
+    - role: jdauphant.nginx
+      nginx_sites:
+        gogs:
+          - listen 80
+          - location / { proxy_pass http://127.0.0.1:{{ gogs_http_port }}; }
 
-  # create/update Gogs configuration
-  - name: configuring Gogs
-    template: src=ansible/gogs.ini.j2 dest=/home/{{ gogs_user }}/gogs/custom/conf/app.ini owner={{ gogs_user }}
-    notify: restart gogs
-  - name: setup Gogs service (systemd)
-    template: src=ansible/gogs.service.j2 dest=/etc/systemd/system/gogs.service
-    when: ansible_service_mgr == "systemd"
-    notify: restart gogs
-  - name: setup Gogs service (SysV)
-    template: src=ansible/gogs.init.j2 dest=/etc/init.d/gogs mode=0755
-    when: ansible_service_mgr != "systemd"
-
-
-  # set up reverse proxy
-  - name: install nginx
-    package: name=nginx state=present
-    notify: restart nginx
-  - name: configure nginx reverse proxy
-    template: src=ansible/nginx_gogs.conf.j2 dest=/etc/nginx/sites-available/gogs.conf
-    notify: restart nginx
-  - name: disable nginx default site
-    file: path=/etc/nginx/sites-enabled/default state=absent
-  - name: enable nginx gogs site
-    file: state=link src=/etc/nginx/sites-available/gogs.conf dest=/etc/nginx/sites-enabled/gogs.conf
-    notify: restart nginx
-
-  handlers:
-    - name: restart gogs
-      service: name=gogs state=restarted enabled=yes
-    - name: restart nginx
-      service: name=nginx state=restarted enabled=yes
-
-
-- name: Check server availability
-  hosts: server
-  tasks:
-  - name: check whether Gogs is running
-    wait_for: port={{ gogs_port }}
+  post_tasks:
   - name: check whether reverse proxy is running
     local_action: wait_for port=80
 
@@ -106,7 +40,6 @@
       dest: id_{{ ssh_key_type }}_{{ workshop_user }}.pub
       flat: yes
 
-
 - name: Set up default Gogs accounts
   hosts: server
 
@@ -115,15 +48,6 @@
     workshop_users: "{{ users | default(groups['client'] | map('regex_replace', '[^A-Za-z0-9]', '') | map('truncate', 8, true, '') | list)}}"
 
   tasks:
-  - name: create Gogs admin_user
-    command: ./gogs admin create-user --admin --name {{ admin_user }} --password {{ admin_pw }} --email {{ admin_user }}@{{ ansible_fqdn }}
-    args:
-      chdir: /home/{{ gogs_user }}/gogs
-      creates: /home/{{ gogs_user }}/repos/{{ admin_user }}
-    become: yes
-    become_method: su
-    become_user: "{{ gogs_user }}"
-
   - name: check SSH keys in Gogs admin_user account
     local_action:
       module: uri
