@@ -49,9 +49,14 @@
   - name: configuring Gogs
     template: src=ansible/gogs.ini.j2 dest=/home/{{ gogs_user }}/gogs/custom/conf/app.ini owner={{ gogs_user }}
     notify: restart gogs
-  - name: setup Gogs service
+  - name: setup Gogs service (systemd)
     template: src=ansible/gogs.service.j2 dest=/etc/systemd/system/gogs.service
+    when: ansible_service_mgr == "systemd"
     notify: restart gogs
+  - name: setup Gogs service (SysV)
+    template: src=ansible/gogs.init.j2 dest=/etc/init.d/gogs mode=0755
+    when: ansible_service_mgr != "systemd"
+
 
   # set up reverse proxy
   - name: install nginx
