@@ -119,6 +119,35 @@
     become_method: su
     become_user: "{{ gogs_user }}"
 
+  - name: check SSH keys in Gogs admin_user account
+    local_action:
+      module: uri
+      url: "{{ gogs_api }}/users/{{ admin_user }}/keys"
+      method: GET
+      user: "{{ admin_user }}"
+      password: "{{ admin_pw }}"
+      force_basic_auth: yes
+    register: admin_user_keys
+
+  - name: add your public key to admin_user account
+    vars:
+      admin_pubkey: "{{ lookup('file', '~/.ssh/id_{{ ssh_key_type }}.pub') }}"
+    local_action:
+      module: uri
+      url: "{{ gogs_api }}/admin/users/{{ admin_user }}/keys"
+      method: POST
+      user: "{{ admin_user }}"
+      password: "{{ admin_pw }}"
+      force_basic_auth: yes
+      body_format: json
+      body:
+        title: default
+        key: "{{ admin_pubkey }}"
+      status_code: 201
+    when: not admin_pubkey in admin_user_keys.json|map(attribute='key')
+    changed_when: not admin_pubkey in admin_user_keys.json|map(attribute='key')
+    ignore_errors: yes
+
   - name: check for existing Gogs users
     with_items: "{{ workshop_users }}"
     local_action:
