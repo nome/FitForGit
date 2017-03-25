@@ -14,7 +14,7 @@
   # install/update Gogs
   - name: download Gogs
     get_url:
-      url: https://cdn.gogs.io/{{ gogs_version }}/{{ gogs_arch }}.zip
+      url: https://github.com/gogits/gogs/releases/download/v{{ gogs_version }}/{{ gogs_arch }}.zip
       dest: /home/{{ gogs_user }}/gogs-{{ gogs_version }}.zip
     register: dl_gogs
     notify: restart gogs
