@@ -74,6 +74,15 @@
       service: name=nginx state=restarted enabled=yes
 
 
+- name: Check server availability
+  hosts: server
+  tasks:
+  - name: check whether Gogs is running
+    wait_for: port=3000
+  - name: check whether reverse proxy is running
+    local_action: wait_for port=80
+
+
 - name: Set up clients
   hosts: client
   tasks:
