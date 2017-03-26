@@ -1,5 +1,5 @@
 ---
-- name: Set up Gogs server
+- name: set up Gogs server
   hosts: server
 
   roles:
@@ -17,11 +17,11 @@
           - location / { proxy_pass http://127.0.0.1:{{ gogs_http_port }}; }
 
   post_tasks:
-  - name: check whether reverse proxy is running
+  - name: check whether nginx is running
     local_action: wait_for port=80
 
 
-- name: Set up clients
+- name: set up clients
   hosts: client
   vars:
     workshop_user: "{{ inventory_hostname | regex_replace('[^A-Za-z0-9]', '') | truncate(8, true, '') }}"
@@ -40,7 +40,8 @@
       dest: id_{{ ssh_key_type }}_{{ workshop_user }}.pub
       flat: yes
 
-- name: Set up default Gogs accounts
+
+- name: set up Gogs accounts
   hosts: server
 
   vars:
