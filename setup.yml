@@ -44,97 +44,37 @@
   hosts: server
 
   vars:
-    gogs_api: http://{{ ansible_fqdn }}/api/v1
     workshop_users: "{{ users | default(groups['client'] | map('regex_replace', '[^A-Za-z0-9]', '') | map('truncate', 8, true, '') | list)}}"
 
   tasks:
-  - name: check SSH keys in Gogs admin_user account
+  - name: add your SSH key to admin_user account
     local_action:
-      module: uri
-      url: "{{ gogs_api }}/users/{{ admin_user }}/keys"
-      method: GET
-      user: "{{ admin_user }}"
-      password: "{{ admin_pw }}"
-      force_basic_auth: yes
-    register: admin_user_keys
+      module: gogs_user
+      server_url: http://{{ ansible_fqdn }}
+      login_user: "{{ admin_user }}"
+      login_password: "{{ admin_pw }}"
 
-  - name: add your public key to admin_user account
-    vars:
-      admin_pubkey: "{{ lookup('file', '~/.ssh/id_{{ ssh_key_type }}.pub') }}"
-    local_action:
-      module: uri
-      url: "{{ gogs_api }}/admin/users/{{ admin_user }}/keys"
-      method: POST
-      user: "{{ admin_user }}"
-      password: "{{ admin_pw }}"
-      force_basic_auth: yes
-      body_format: json
-      body:
-        title: default
-        key: "{{ admin_pubkey }}"
-      status_code: 201
-    when: not admin_pubkey in admin_user_keys.json|map(attribute='key')
-    changed_when: not admin_pubkey in admin_user_keys.json|map(attribute='key')
+      name: "{{ admin_user }}"
+      sshkey_name: default
+      sshkey_file:  "{{ lookup('file', '~/.ssh/id_{{ ssh_key_type }}.pub') }}"
     ignore_errors: yes
 
-  - name: check for existing Gogs users
+  - name: check for user SSH keys
     with_items: "{{ workshop_users }}"
-    local_action:
-      module: uri
-      url: "{{ gogs_api }}/users/{{ item }}"
-      method: GET
-      user: "{{ admin_user }}"
-      password: "{{ admin_pw }}"
-      force_basic_auth: yes
-      status_code: 200,404
-    register: existing_gogs_users
-
-  - name: create missing Gogs users for workshop participants
-    with_items: "{{ workshop_users }}"
-    local_action:
-      module: uri
-      url: "{{ gogs_api }}/admin/users"
-      method: POST
-      user: "{{ admin_user }}"
-      password: "{{ admin_pw }}"
-      force_basic_auth: yes
-      body_format: json
-      body:
-        username: "{{ item }}"
-        email: "{{ item }}@localhost.localdomain"
-        password: "{{ user_pw }}"
-      status_code: 201
-    when: item not in existing_gogs_users.results | selectattr('status', 'equalto', 200) | map(attribute='item')
-
-  - name: check SSH keys of Gogs accounts
-    with_items: "{{ workshop_users }}"
-    local_action:
-      module: uri
-      url: "{{ gogs_api }}/users/{{ item }}/keys"
-      method: GET
-      user: "{{ admin_user }}"
-      password: "{{ admin_pw }}"
-      force_basic_auth: yes
+    stat: path=id_{{ ssh_key_type }}_{{ item }}.pub
     register: user_keys
 
-  - name: add missing SSH keys to Gogs accounts
-    with_together:
-      - "{{ workshop_users }}"
-      - "{{ user_keys.results }}"
-    vars:
-      user_pubkey: "{{ lookup('file', 'id_' +  ssh_key_type + '_' + item.0 + '.pub') }}"
+  - name: create Gogs users for workshop participants
+    with_items: "{{ workshop_users }}"
+    when: (user_keys.results | selectattr('item', 'equalto', item) | first).stat.exists
     local_action:
-      module: uri
-      url: "{{ gogs_api }}/admin/users/{{ item.0 }}/keys"
-      method: POST
-      user: "{{ admin_user }}"
-      password: "{{ admin_pw }}"
-      force_basic_auth: yes
-      body_format: json
-      body:
-        title: default
-        key: "{{ user_pubkey }}"
-      status_code: 201
-    when: not user_pubkey in item.1.json|map(attribute='key')
-    changed_when: not user_pubkey in item.1.json|map(attribute='key')
-    ignore_errors: yes
+      module: gogs_user
+      server_url: http://{{ ansible_fqdn }}
+      login_user: "{{ admin_user }}"
+      login_password: "{{ admin_pw }}"
+
+      name: "{{ item }}"
+      email: "{{ item }}@localhost.localdomain"
+      password: "{{ user_pw }}"
+      sshkey_name: default
+      sshkey_file: "{{ lookup('file', 'id_' +  ssh_key_type + '_' + item + '.pub') }}"
