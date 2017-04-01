@@ -70,6 +70,10 @@ be the root of this repository):
     ansible-galaxy install -r ansible/roles.txt
     ansible-playboook setup.yml
 
+After the playbook has finished, head over to <http://ffg> (replace `ffg` with
+the name of your server). If everything went well, you should be seeing the
+FitForGit welcome page.
+
 Creating slides
 ---------------
 
