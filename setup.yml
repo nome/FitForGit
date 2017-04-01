@@ -2,6 +2,10 @@
 - name: set up Gogs server
   hosts: server
 
+  pre_tasks:
+  - name: make sure sudo is installed
+    package: name=sudo state=present
+
   roles:
     - role: nome.gogs
       gogs_app_name: FitForGit
