@@ -249,7 +249,7 @@ def main():
     # FIXME: Gogs API appears to be missing a way to query most of these settings, so
     # we can't tell whether they changed.
     for param in user_params:
-      if not module.params[param]:
+      if module.params[param] is None:
         continue
       if param in old_state:
         if old_state[param] != module.params[param]:
