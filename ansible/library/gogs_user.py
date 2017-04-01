@@ -36,7 +36,7 @@ options:
     description: Name of Gogs user to be created/updated/deleted.
     required: true
   password:
-    description: Name of Gogs user to be created/updated/deleted.
+    description: Password of Gogs user to be created/updated/deleted.
     required: false
   email:
     description: The email address that belongs to the user.
