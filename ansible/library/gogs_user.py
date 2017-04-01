@@ -48,7 +48,7 @@ options:
     description: SSH public key of the user.
     required: false
     aliases:
-      sshkey_content
+      sshkey
   full_name:
     description: Full name of the user (for profile)
     required: false
@@ -179,7 +179,7 @@ def main():
     "sshkey_name": dict(required=False),
     # sshkey_file is a bit of a misnomer, but we attempt to be compatible with
     # gitlab_user
-    "sshkey_file": dict(required=False, aliases=["sshkey_content"]),
+    "sshkey_file": dict(required=False, aliases=["sshkey"]),
     "full_name": dict(required=False),
     "website": dict(required=False),
     "location": dict(required=False),
