@@ -112,9 +112,33 @@
     package: name=libyaml-dev
   - name: install mkdocs
     command: pip install mkdocs
+  - name: install pandoc
+    package: name=pandoc
 
   - name: create doc directory
     file: name="/home/git/doc" state=directory owner=git
+
+  - name: install reveal.js
+    git:
+      repo: https://github.com/hakimel/reveal.js
+      dest: /home/git/doc/reveal.js
+      depth: 1
+    become: yes
+    become_user: git
+
+  - name: create compatibility link for old pandoc (1)
+    file:
+      state: link
+      src: reveal.js
+      dest: /home/git/doc/reveal.js/js/reveal.min.js
+      owner: git
+
+  - name: create compatibility link for old pandoc (2)
+    file:
+      state: link
+      src: reveal.css
+      dest: /home/git/doc/reveal.js/css/reveal.min.css
+      owner: git
 
   - name: create FitForGit repository
     local_action:

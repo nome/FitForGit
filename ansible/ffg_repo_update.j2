@@ -11,6 +11,8 @@ if [ "$newrev" = "$zero" ]; then
 	rm -rf /home/git/doc
 fi
 
+set -e
+
 mkdir -p /home/git/doc
 tmp_index="$(mktemp -d)"
 export GIT_WORK_TREE=/home/git/doc GIT_INDEX_FILE="$tmp_index/index"
@@ -18,4 +20,8 @@ git read-tree "$newrev"
 git checkout-index -q -f -a
 rm -rf "$tmp_index"
 cd /home/git/doc
+
 mkdocs build
+cd site
+ln -sf ../reveal.js
+pandoc -s -t revealjs ../docs/slidestart.md ../docs/0* -o slides.html
