@@ -19,13 +19,21 @@
       gogs_admin: "{{ admin_user }}"
       gogs_admin_password: "{{ admin_pw }}"
       gogs_bind_addr: 127.0.0.1
-      gogs_url: http://{{ ansible_fqdn }}
+      gogs_url: http://{{ ansible_fqdn }}/gogs
 
     - role: jdauphant.nginx
       nginx_sites:
         gogs:
           - listen 80
-          - location / { proxy_pass http://127.0.0.1:{{ gogs_http_port }}; }
+          - server_name {{ ansible_fqdn }}
+          - root "/home/git/doc/site"
+          - location / { try_files $uri $uri/ /index.html; }
+          - location /gogs {
+              rewrite ^/gogs/(.*) /$1 break;
+              rewrite ^/gogs/$ / break;
+              rewrite ^/gogs$ / break;
+              proxy_pass http://127.0.0.1:{{ gogs_http_port }};
+            }
 
   post_tasks:
   - name: check whether nginx is running
@@ -62,7 +70,7 @@
   - name: add your SSH key to admin_user account
     local_action:
       module: gogs_user
-      server_url: http://{{ ansible_fqdn }}
+      server_url: http://{{ ansible_fqdn }}/gogs
       login_user: "{{ admin_user }}"
       login_password: "{{ admin_pw }}"
 
@@ -81,7 +89,7 @@
     when: (user_keys.results | selectattr('item', 'equalto', item) | first).stat.exists
     local_action:
       module: gogs_user
-      server_url: http://{{ ansible_fqdn }}
+      server_url: http://{{ ansible_fqdn }}/gogs
       login_user: "{{ admin_user }}"
       login_password: "{{ admin_pw }}"
 
@@ -90,3 +98,54 @@
       password: "{{ user_pw }}"
       sshkey_name: default
       sshkey_file: "{{ lookup('file', 'id_' +  ssh_key_type + '_' + item + '.pub') }}"
+
+
+- name: Copy workshop content to Gogs server
+  hosts: server
+
+  tasks:
+  - name: install PIP
+    package: name=python-pip
+  - name: install Python development package
+    package: name=python-dev
+  - name: install libyaml
+    package: name=libyaml-dev
+  - name: install mkdocs
+    command: pip install mkdocs
+
+  - name: create doc directory
+    file: name="/home/git/doc" state=directory owner=git
+
+  - name: create FitForGit repository
+    local_action:
+      module: gogs_project
+      server_url: http://{{ ansible_fqdn }}/gogs
+      login_user: "{{ admin_user }}"
+      login_password: "{{ admin_pw }}"
+
+      name: FitForGit
+      description: toolbox for organizing Git workshops / trainings
+      public: true
+
+  - name: create custom_hooks directory
+    file:
+      name: /home/git/repos/{{ admin_user }}/fitforgit.git/custom_hooks
+      state: directory
+      owner: git
+
+  - name: install update hook
+    template:
+      src: ansible/ffg_repo_update.j2
+      dest: "/home/git/repos/{{ admin_user }}/fitforgit.git/custom_hooks/update"
+      owner: git
+      mode: 0755
+
+  - name: add git remote for Gogs server
+    local_action:
+      module: shell
+      args: "git config remote.{{ inventory_hostname }}.url || git remote add {{ inventory_hostname }} ssh://git@{{ ansible_fqdn }}/{{ admin_user }}/FitForGit.git"
+
+  - name: push this repository to Gogs server
+    local_action:
+      module: command
+      args: "git push --mirror {{ inventory_hostname }}"

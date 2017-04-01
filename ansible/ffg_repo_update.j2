@@ -1,0 +1,21 @@
+#!/bin/sh
+refname="$1"
+oldrev="$2"
+newrev="$3"
+
+[ "$refname" = refs/heads/master ] || exit 0
+
+# if $newrev is 0000...0000, it's a commit to delete a ref.
+zero="0000000000000000000000000000000000000000"
+if [ "$newrev" = "$zero" ]; then
+	rm -rf /home/git/doc
+fi
+
+mkdir -p /home/git/doc
+tmp_index="$(mktemp -d)"
+export GIT_WORK_TREE=/home/git/doc GIT_INDEX_FILE="$tmp_index/index"
+git read-tree "$newrev"
+git checkout-index -q -f -a
+rm -rf "$tmp_index"
+cd /home/git/doc
+mkdocs build

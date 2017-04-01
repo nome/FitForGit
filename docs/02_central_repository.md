@@ -92,7 +92,7 @@ Recommended solution:
 Training Time
 -------------
 
-1. get a clone of <http://ffg/ffg/hello.git>
+1. get a clone of <http://ffg/gogs/ffg/hello.git>
 2. add a new file to your clone
 3. upload your change and get the changes of other participants
 4. repeat with the fie `cool_stuff.txt` (this should give conflits which you need to resolve)
