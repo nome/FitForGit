@@ -3,32 +3,29 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Recording Changes - Fit for Git</title>
   
-
   <link rel="shortcut icon" href="../img/favicon.ico">
-
-  
+  <title>Recording Changes - Fit for Git</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="../css/highlight.css">
   <link href="../ffg.css" rel="stylesheet">
-
   
   <script>
     // Current page data
     var mkdocs_page_name = "Recording Changes";
+    var mkdocs_page_input_path = "01_recording_changes.md";
+    var mkdocs_page_url = "/01_recording_changes/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
   <script src="../js/modernizr-2.8.3.min.js"></script>
-  <script type="text/javascript" src="../js/highlight.pack.js"></script>
-  <script src="../js/theme.js"></script> 
-
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
   
 </head>
 
@@ -48,64 +45,56 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        <ul class="current">
+	<ul class="current">
+	  
           
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="..">Home</a>
-        
-    </li>
-<li>
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
           
-            <li>
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Course</span>
     <ul class="subnav">
-    <li><span>Course</span></li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Recording Changes</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#recording-changes">Recording Changes</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#first-time-setup">First-time setup</a></li>
+        
+            <li><a class="toctree-l4" href="#creating-a-repository">Creating a repository</a></li>
+        
+            <li><a class="toctree-l4" href="#staging-changes">Staging changes</a></li>
+        
+            <li><a class="toctree-l4" href="#committing-to-a-version">Committing (to) a version</a></li>
+        
+            <li><a class="toctree-l4" href="#the-why-of-commit-messages">The why of commit messages</a></li>
+        
+            <li><a class="toctree-l4" href="#the-how-of-commit-messages">The how of commit messages</a></li>
+        
+            <li><a class="toctree-l4" href="#training-time">Training Time</a></li>
+        
+        </ul>
+    
 
-        
-            
-    <li class="toctree-l1 current">
-        <a class="current" href="./">Recording Changes</a>
-        
-            <ul>
-            
-                <li class="toctree-l3"><a href="#recording-changes">Recording Changes</a></li>
-                
-                    <li><a class="toctree-l4" href="#first-time-setup">First-time setup</a></li>
-                
-                    <li><a class="toctree-l4" href="#creating-a-repository">Creating a repository</a></li>
-                
-                    <li><a class="toctree-l4" href="#staging-changes">Staging changes</a></li>
-                
-                    <li><a class="toctree-l4" href="#committing-to-a-version">Committing (to) a version</a></li>
-                
-                    <li><a class="toctree-l4" href="#the-why-of-commit-messages">The why of commit messages</a></li>
-                
-                    <li><a class="toctree-l4" href="#the-how-of-commit-messages">The how of commit messages</a></li>
-                
-                    <li><a class="toctree-l4" href="#training-time">Training Time</a></li>
-                
-            
-            </ul>
-        
-    </li>
-
-        
-            
-    <li class="toctree-l1 ">
-        <a class="" href="../02_central_repository/">Central Repository</a>
-        
-    </li>
-
-        
-            
-    <li class="toctree-l1 ">
-        <a class="" href="../03_pull_requests/">Pull Requests</a>
-        
-    </li>
-
-        
     </ul>
-<li>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../02_central_repository/">Central Repository</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../03_pull_requests/">Pull Requests</a>
+                </li>
+    </ul>
+	    </li>
           
         </ul>
       </div>
@@ -136,9 +125,8 @@
     <li>Recording Changes</li>
     <li class="wy-breadcrumbs-aside">
       
-        
-          <a href="https://github.com/nome/FitForGit" class="icon icon-github"> Edit on GitHub</a>
-        
+        <a href="https://github.com/nome/FitForGit/edit/master/docs/01_recording_changes.md"
+          class="icon icon-github"> Edit on GitHub</a>
       
     </li>
   </ul>
@@ -236,7 +224,7 @@ git config --global user.email user@domain.tld
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../02_central_repository/" class="btn btn-neutral float-right" title="Central Repository"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../02_central_repository/" class="btn btn-neutral float-right" title="Central Repository">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -258,13 +246,13 @@ git config --global user.email user@domain.tld
       </div>
 
     </section>
-
+    
   </div>
 
-<div class="rst-versions" role="note" style="cursor: pointer">
+  <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
-          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+          <a href="https://github.com/nome/FitForGit" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
         <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
@@ -274,6 +262,7 @@ git config --global user.email user@domain.tld
       
     </span>
 </div>
+    <script src="../js/theme.js"></script>
 
 </body>
 </html>
