@@ -13,3 +13,4 @@ pages:
   - "Recording Changes": "01_recording_changes.md"
   - "Central Repository": "02_central_repository.md"
   - "Pull Requests": "03_pull_requests.md"
+- Repositories: "repos.md"
