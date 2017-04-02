@@ -181,3 +181,15 @@
     local_action:
       module: command
       args: "git push --mirror {{ inventory_hostname }}"
+
+  - name: create hello.git repository
+    local_action:
+      module: gogs_project
+      server_url: http://{{ ansible_fqdn }}/gogs
+      login_user: "{{ admin_user }}"
+      login_password: "{{ admin_pw }}"
+
+      name: hello
+      description: sandbox repository edited during workshop
+      public: true
+      auto_init: true
