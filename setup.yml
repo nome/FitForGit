@@ -104,6 +104,13 @@
 - name: Copy workshop content to Gogs server
   hosts: server
 
+  vars:
+    slides:
+      params:
+        # see https://github.com/hakimel/reveal.js#configuration
+        theme: white
+        transition: slide
+
   tasks:
   - name: install PIP
     package: name=python-pip

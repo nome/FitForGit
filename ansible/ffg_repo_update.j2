@@ -24,4 +24,4 @@ cd /home/git/doc
 mkdocs build
 cd site
 ln -sf ../reveal.js
-pandoc -s -t revealjs ../docs/slidestart.md ../docs/0* -o slides.html
+pandoc -s -t revealjs {% for var, val in slides.params.iteritems() %} -V {{var}}="{{val}}" {% endfor %} --css=reveal.js/css/reveal.css --css=reveal.js/css/theme/{{ slides.params.theme }}.css --css=ffg.slides.css ../docs/slidestart.md ../docs/0* -o slides.html

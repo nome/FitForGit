@@ -13,11 +13,10 @@ Clones
 This has created a _clone_ of the hello.git repository. The repository we
 cloned from is called its _origin_.
 
-**hints**
-
-* by convention, central repositories have the postfix `.git`, while
-  repositories we can make commits in do not
-
+<ul class="hints">
+<li> by convention, central repositories have the postfix <code>.git</code>, while
+  repositories we can make commits in do not</li>
+</ul>
 
 
 Pulling updates from upstream
@@ -35,10 +34,9 @@ Now the history of the repository looks like this:
     * 3adcc80 My second git commit
     * b323f69 My first git commit
 
-**hints**
-
-* the above graph was printed by `git log --graph --oneline`
-
+<ul class="hints">
+<li> try <code>git log --graph --oneline</code></li>
+</ul>
 
 
 Resolving conflicts

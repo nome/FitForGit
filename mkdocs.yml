@@ -5,6 +5,8 @@ repo_url: http://ffg/gogs/ffg/FitForGit
 repo_name: Gogs
 edit_uri: _edit/master/docs
 
+extra_css: [ffg.css]
+
 pages:
 - Home: "index.md"
 - Course:
