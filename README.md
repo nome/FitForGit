@@ -21,6 +21,10 @@ We only need a minimal Linux installation and Python on both server and client.
 
 1. Download the [Raspberry PI unattended installer](https://github.com/FooDeas/raspberrypi-ua-netinst)
 2. create a FAT32 partition on an empty SD card
+
+    sudo parted /dev/mmcblk0 -- mkpart primary fat32 1 -1
+    sudo mkfs -t msdos /dev/mmcblk0p1
+
 3. unzip `raspberrypi-ua-netinst-*.zip` to the SD card
 4. on the SD card, create a directory `raspberrypi-ua-netinst/config` and copy
    [`rpi/installer-config.txt`](rpi/installer-config.txt) from this repository
