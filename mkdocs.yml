@@ -1,6 +1,10 @@
 site_name: Fit for Git
 theme: readthedocs
 
+repo_url: http://ffg/gogs/ffg/FitForGit
+repo_name: Gogs
+edit_uri: _edit/master/docs
+
 pages:
 - Home: "index.md"
 - Course:
