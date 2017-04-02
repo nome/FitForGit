@@ -1,0 +1,27 @@
+ul.hints {
+  background: #99d7ff;
+  padding: 1em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  text-align: left;
+  border: solid 1px #2980b9;
+}
+
+ul.hints li, .section ul.hints li {
+  padding-left: 1.5em;
+  list-style: none;
+  background-image: url("img/light-bulb-11.svg");
+  background-size: 1.2em;
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+ul.hints li code {
+  color: black;
+  background: #99d7ff;
+  font-size: 1em;
+}
+
+code {
+  font-size: 1.2em;
+}

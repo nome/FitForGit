@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="../css/highlight.css">
+  <link href="../ffg.css" rel="stylesheet">
 
   
   <script>
@@ -38,7 +39,7 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> Fit for Git</a>
+        <a href="../index.github/" class="icon icon-home"> Fit for Git</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -51,7 +52,7 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="..">Home</a>
+        <a class="" href="../index.github/">Home</a>
         
     </li>
 <li>
@@ -71,7 +72,7 @@
                 
                     <li><a class="toctree-l4" href="#first-time-setup">First-time setup</a></li>
                 
-                    <li><a class="toctree-l4" href="#your-first-repository">Your first repository</a></li>
+                    <li><a class="toctree-l4" href="#creating-a-repository">Creating a repository</a></li>
                 
                     <li><a class="toctree-l4" href="#staging-changes">Staging changes</a></li>
                 
@@ -116,7 +117,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">Fit for Git</a>
+        <a href="../index.github/">Fit for Git</a>
       </nav>
 
       
@@ -124,7 +125,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="..">Docs</a> &raquo;</li>
+    <li><a href="../index.github/">Docs</a> &raquo;</li>
     
       
         
@@ -134,6 +135,10 @@
     
     <li>Recording Changes</li>
     <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/nome/FitForGit" class="icon icon-github"> Edit on GitHub</a>
+        
       
     </li>
   </ul>
@@ -148,11 +153,11 @@
 git config --global user.email user@domain.tld
 </code></pre>
 <p>Git is a distributed system, so it uses email addresses to uniquely identify users.</p>
-<p><strong>hints</strong></p>
-<ul>
-<li>try <code>git help config</code></li>
+<ul class="hints">
+<li> try <code>git help config</code></li>
 </ul>
-<h2 id="your-first-repository">Your first repository</h2>
+
+<h2 id="creating-a-repository">Creating a repository</h2>
 <pre><code>git init repo
 cd repo
 </code></pre>
@@ -161,31 +166,36 @@ now).</p>
 <pre><code>echo git &gt; cool_stuff.txt
 git status
 </code></pre>
-<p><strong>hints</strong></p>
-<ul>
-<li>you can also run <code>git init</code> without argument to start tracking existing files</li>
+<ul class="hints">
+<li> run <code>git init</code> without argument to start tracking existing files in <code>./</code></li>
 </ul>
+
 <h2 id="staging-changes">Staging changes</h2>
 <pre><code>git add cool_stuff.txt
 git status
 </code></pre>
-<p>This adds a snapshot of <code>cool_stuff.txt</code> to the staging area. Changes made
-afterwards will not be recorded, unless you run <code>git add</code> again.</p>
+<hr />
+<p><strong>file</strong> <strong>&rarr;</strong> <strong>staging area</strong> &rarr; HEAD</p>
+<hr />
+<p>. . .</p>
 <p>The staging area can track only one version of each file, so we're not done yet.</p>
-<p><strong>hints</strong></p>
-<ul>
-<li>you can also add entire directories with <code>git add</code></li>
+<ul class="hints">
+<li> you can also add entire directories with <code>git add</code></li>
 </ul>
+
 <h2 id="committing-to-a-version">Committing (to) a version</h2>
 <pre><code>git commit
 git status
-
-gitk
 </code></pre>
-<p><strong>hints</strong></p>
-<ul>
-<li>you can skip <code>git add</code> for files known to Git using <code>git commit -a</code></li>
+<hr />
+<p>file &rarr; <strong>staging area</strong> <strong>&rarr;</strong> <strong>HEAD</strong></p>
+<hr />
+<pre><code>gitk
+</code></pre>
+<ul class="hints">
+<li> you can skip <code>git add</code> for files known to Git using <code>git commit -a</code></li>
 </ul>
+
 <h2 id="the-why-of-commit-messages">The why of commit messages</h2>
 <ul>
 <li>the who/when/what of a change is recorded automatically</li>
@@ -196,11 +206,14 @@ gitk
 <h2 id="the-how-of-commit-messages">The how of commit messages</h2>
 <pre><code>First line: very short summary, what changed?
 
-After a blank line follows the answer to the &quot;why&quot;. What was the motivation
-for the change? How is the need addressed by this commit?
+After a blank line follows the answer to the &quot;why&quot;. What was
+the motivation for the change? How is the need addressed by
+this commit?
 
-If applicable: Which alternatives were considered, and why were they
-discarded?
+If applicable: Which alternatives were considered, and why
+were they discarded?
+
+If applicable: Reference to #bugid
 </code></pre>
 
 <h2 id="training-time">Training Time</h2>
@@ -212,9 +225,9 @@ git config --global user.email user@domain.tld
 <li>commit some changes</li>
 <li>view the resulting history</li>
 </ol>
-<p><strong>freestyle</strong></p>
-<ul>
-<li>look at the contents of the <code>.git</code> directory - what changes at each step?</li>
+<ul class="hints">
+<li> Try <code>git revert HEAD~1</code>. What does it do? Can you revert other changes?</li>
+<li> Look at the contents of the <code>.git</code> directory - what changes at each step?</li>
 </ul>
               
             </div>
@@ -226,7 +239,7 @@ git config --global user.email user@domain.tld
         <a href="../02_central_repository/" class="btn btn-neutral float-right" title="Central Repository"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../index.github/" class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -251,8 +264,10 @@ git config --global user.email user@domain.tld
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
+          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
-        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+        <span><a href="../index.github/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
         <span style="margin-left: 15px"><a href="../02_central_repository/" style="color: #fcfcfc">Next &raquo;</a></span>
