@@ -1,12 +1,12 @@
 {
     "docs": [
         {
-            "location": "/index.github/",
+            "location": "/",
             "text": "Welcome!\n\n\nSTART SLIDES",
             "title": "Home"
         },
         {
-            "location": "/index.github/#welcome",
+            "location": "/#welcome",
             "text": "START SLIDES",
             "title": "Welcome!"
         },
