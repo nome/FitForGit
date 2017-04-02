@@ -15,7 +15,7 @@ Git is a distributed system, so it uses email addresses to uniquely identify use
 </ul>
 
 
-Your first repository
+Creating a repository
 ---------------------
 
     git init repo
@@ -28,7 +28,7 @@ now).
     git status
 
 <ul class="hints">
-<li> you can also run <code>git init</code> without argument to start tracking existing files</li>
+<li> run <code>git init</code> without argument to start tracking existing files in <code>./</code></li>
 </ul>
 
 
@@ -38,8 +38,9 @@ Staging changes
     git add cool_stuff.txt
     git status
 
-This adds a snapshot of `cool_stuff.txt` to the staging area. Changes made
-afterwards will not be recorded, unless you run `git add` again.
+-------- ---------- ---------------- ------ ----
+**file** **&rarr;** **staging area** &rarr; HEAD
+-------- ---------- ---------------- ------ ----
 
 . . .
 
@@ -55,6 +56,10 @@ Committing (to) a version
 
     git commit
     git status
+
+---- ------ ---------------- ---------- --------
+file &rarr; **staging area** **&rarr;** **HEAD**
+---- ------ ---------------- ---------- --------
 
     gitk
 
@@ -84,6 +89,8 @@ this commit?
 
 If applicable: Which alternatives were considered, and why
 were they discarded?
+
+If applicable: Reference to #bugid
 ```
 
 
@@ -99,5 +106,6 @@ Training Time
 3. view the resulting history
 
 <ul class="hints">
-<li> look at the contents of the <code>.git</code> directory - what changes at each step?</li>
+<li> Try <code>git revert HEAD~1</code>. What does it do? Can you revert other changes?</li>
+<li> Look at the contents of the <code>.git</code> directory - what changes at each step?</li>
 </ul>
