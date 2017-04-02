@@ -44,7 +44,7 @@ skip this step.
 
     ssh-keygen -t ed25519
     ssh-add ~/.ssh/id_ed25519
-    ssh-copy-id -i ~/.ssh/id_ed25519 -l root ffg
+    ssh-copy-id -i ~/.ssh/id_ed25519 root@ffg
 
 Repeat the last command with `ffg` replaced by each client you want to set up
 in turn.
