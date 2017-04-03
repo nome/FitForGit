@@ -12,5 +12,7 @@ pages:
 - Course:
   - "Recording Changes": "01_recording_changes.md"
   - "Central Repository": "02_central_repository.md"
-  - "Pull Requests": "03_pull_requests.md"
+  - "Branching and Merging": "03_branching_and_merging.md"
+  - "Pull Requests": "04_pull_requests.md"
+  - "Rewriting History": "05_rewriting_history.md"
 - Repositories: "repos.md"

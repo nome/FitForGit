@@ -11,6 +11,6 @@ install:
 script:
   - ssh-keygen -t rsa -f ~/.ssh/id_rsa -N "" -q
   - cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-  - ssh-keyscan -t rsa $(hostname) >> ~/.ssh/known_hosts
+  - ssh-keyscan -t ecdsa -H $(hostname)  >> ~/.ssh/known_hosts
   - sudo ansible-playbook setup.yml -c local -e ssh_key_type=rsa
   - mkdocs build
