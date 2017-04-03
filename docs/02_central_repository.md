@@ -10,12 +10,12 @@ Clones
     ls
     git status
 
-This has created a _clone_ of the hello.git repository. The repository we
+This has created a _clone_ of the `hello.git` repository. The repository we
 cloned from is called its _origin_.
 
 <ul class="hints">
-<li> by convention, central ("bare") repositories have the postfix
-<code>.git</code>, while repositories we can make commits in do not</li>
+<li> By convention, central ("bare") repositories have the suffix
+<code>.git</code>, while repositories we can make commits in do not.</li>
 </ul>
 
 
@@ -85,7 +85,7 @@ Resolving conflicts
 Training Time
 -------------
 
-1. get a clone of <http://ffg/gogs/ffg/hello.git>
+1. get a clone of <git@ffg:ffg/hello.git>
 2. add a new file to your clone
 3. upload your change and get the changes of other participants
 4. repeat with the file `cool_stuff.txt` (this should give conflits which you need to resolve)

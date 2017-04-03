@@ -38,17 +38,16 @@ Staging changes
     git add cool_stuff.txt
     git status
 
--------- ---------- ---------------- ------ ----
-**file** **&rarr;** **staging area** &rarr; HEAD
--------- ---------- ---------------- ------ ----
-
-. . .
-
-The staging area can track only one version of each file, so we're not done yet.
+![](img/git-add.svg)
 
 <ul class="hints">
 <li> you can also add entire directories with <code>git add</code></li>
+<li> make changes in different parts of a file and try <code>git add -p</code></li>
 </ul>
+
+<div class="notes"><ul>
+<li>The staging area can track only one version of each file, so we're not done yet.</li>
+</ul></div>
 
 
 Committing (to) a version
@@ -57,15 +56,21 @@ Committing (to) a version
     git commit
     git status
 
----- ------ ---------------- ---------- --------
-file &rarr; **staging area** **&rarr;** **HEAD**
----- ------ ---------------- ---------- --------
-
-    gitk
+![](img/git-commit.svg)
 
 <ul class="hints">
 <li> you can skip <code>git add</code> for files known to Git using <code>git commit -a</code></li>
 </ul>
+
+
+Viewing history
+---------------
+
+--------- ------- ---------------
+`gitk`    GUI     separate tool
+`tig`     ncurses separate tool
+`git log` text    included in git
+--------- ------- ---------------
 
 
 The why of commit messages
