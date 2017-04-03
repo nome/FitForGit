@@ -9,10 +9,10 @@ install:
   - ansible-galaxy install -r ansible/roles.txt
 
 script:
-  - sudo ssh-keygen -t rsa -f ~root/.ssh/id_rsa -N "" -q
-  - sudo bash -c "cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys"
-  - sudo bash -c "ssh-keyscan -t rsa -H $(hostname)  >> ~/.ssh/known_hosts"
-  - sudo cat ~root/.ssh/known_hosts
+  - sudo ssh-keygen -t rsa -f /root/.ssh/id_rsa -N "" -q
+  - sudo bash -c "cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys"
+  - sudo bash -c "ssh-keyscan -t rsa -H $(hostname)  >> /root/.ssh/known_hosts"
+  - sudo cat /root/.ssh/known_hosts
   - sudo ssh $(hostname) true
   - sudo ansible-playbook setup.yml -c local -e ssh_key_type=rsa
   - mkdocs build
