@@ -72,6 +72,10 @@ Viewing history
 `git log` text    included in git
 --------- ------- ---------------
 
+Every commit contains a snapshot of the entire repository; unlike checkins in
+RCS or Subversion, which operate on individual files or directories,
+respectively.
+
 
 The why of commit messages
 --------------------------
