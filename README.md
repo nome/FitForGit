@@ -78,6 +78,14 @@ After the playbook has finished, head over to <http://ffg> (replace `ffg` with
 the name of your server). If everything went well, you should be seeing the
 FitForGit welcome page.
 
+#### Setting up via Android device ####
+Install [Termux](https://play.google.com/store/apps/details?id=com.termux), open a Termux session and enter the following commands:
+
+```
+packages install git python python-dev openssl-dev libffi-dev openssh clang
+CONFIG_SHELL=$PREFIX/bin/sh pip install ansible
+```
+
 Creating slides
 ---------------
 
