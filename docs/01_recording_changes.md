@@ -99,7 +99,7 @@ this commit?
 If applicable: Which alternatives were considered, and why
 were they discarded?
 
-If applicable: Reference to #bugid
+Closes #bugid.
 ```
 
 
