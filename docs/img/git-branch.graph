@@ -1,0 +1,6 @@
+digraph git_branch {
+   node [ style=filled, color=greenyellow ];
+   ordering=in;
+   master -> c -> b -> a;
+   master [ color=lightblue, shape=rect ];
+}

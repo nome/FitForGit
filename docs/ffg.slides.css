@@ -34,3 +34,7 @@ ul.hints li {
   border: none;
   box-shadow: none;
 }
+
+div.textcolumn {
+  vertical-align:top;
+}
