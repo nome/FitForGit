@@ -36,7 +36,7 @@ Pulling updates
     * b323f69 My first git commit
 
 <ul class="hints">
-<li> try <code>git log --graph --oneline</code></li>
+<li> try `git log --graph --oneline`</li>
 </ul>
 
 

@@ -11,7 +11,7 @@ First-time setup
 Git is a distributed system, so it uses email addresses to uniquely identify users.
 
 <ul class="hints">
-<li> try <code>git help config</code></li>
+<li> try `git help config`</li>
 </ul>
 
 
@@ -28,7 +28,7 @@ now).
     git status
 
 <ul class="hints">
-<li> run <code>git init</code> without argument to start tracking existing files in <code>./</code></li>
+<li> run `git init` without argument to start tracking existing files in `./`</li>
 </ul>
 
 
@@ -41,8 +41,8 @@ Staging changes
 ![](img/git-add.svg)
 
 <ul class="hints">
-<li> you can also add entire directories with <code>git add</code></li>
-<li> make changes in different parts of a file and try <code>git add -p</code></li>
+<li> you can also add entire directories with `git add`</li>
+<li> make changes in different parts of a file and try `git add -p`</li>
 </ul>
 
 <div class="notes"><ul>
@@ -59,7 +59,7 @@ Committing (to) a version
 ![](img/git-commit.svg)
 
 <ul class="hints">
-<li> you can skip <code>git add</code> for files known to Git using <code>git commit -a</code></li>
+<li> you can skip `git add` for files known to Git using `git commit -a`</li>
 </ul>
 
 
@@ -115,6 +115,6 @@ Training Time
 3. view the resulting history
 
 <ul class="hints">
-<li> Try <code>git revert HEAD~1</code>. What does it do? Can you revert other changes?</li>
-<li> Look at the contents of the <code>.git</code> directory - what changes at each step?</li>
+<li> Try `git revert HEAD~1`. What does it do? Can you revert other changes?</li>
+<li> Look at the contents of the `.git` directory - what changes at each step?</li>
 </ul>
