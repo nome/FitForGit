@@ -71,7 +71,7 @@ and/or adjust the other settings.
 Now we're ready to start the installation (your current working directory must
 be the root of this repository):
 
-    ansible-galaxy install -r ansible/roles.txt
+    ansible-galaxy install -r ansible/requirements.yml
     ansible-playboook setup.yml
 
 After the playbook has finished, head over to <http://ffg> (replace `ffg` with
