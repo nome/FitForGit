@@ -29,3 +29,12 @@ ul.hints li {
 .reveal h1 {
   font-size: 1.5em;
 }
+
+.reveal section img {
+  border: none;
+  box-shadow: none;
+}
+
+div.textcolumn {
+  vertical-align:top;
+}

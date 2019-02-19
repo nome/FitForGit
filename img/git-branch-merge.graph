@@ -1,0 +1,10 @@
+digraph git_branch_merge {
+   node [ style=filled, color=greenyellow ];
+   ordering=in;
+   f -> c -> b -> a;
+   f -> d -> a;
+   master -> f;
+   feature -> d;
+   master [ color=lightblue, shape=rect ];
+   feature [ color=lightblue, shape=rect ];
+}

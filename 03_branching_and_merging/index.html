@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Central Repository - Fit for Git</title>
+  <title>Branching and Merging - Fit for Git</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Central Repository";
-    var mkdocs_page_input_path = "02_central_repository.md";
+    var mkdocs_page_name = "Branching and Merging";
+    var mkdocs_page_input_path = "03_branching_and_merging.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -62,35 +62,37 @@
                     
     <a class="" href="../01_recording_changes/">Recording Changes</a>
                 </li>
+                <li class="">
+                    
+    <a class="" href="../02_central_repository/">Central Repository</a>
+                </li>
                 <li class=" current">
                     
-    <a class="current" href="./">Central Repository</a>
+    <a class="current" href="./">Branching and Merging</a>
     <ul class="subnav">
             
-    <li class="toctree-l3"><a href="#central-repository">Central Repository</a></li>
+    <li class="toctree-l3"><a href="#branching-and-merging">Branching and Merging</a></li>
     
         <ul>
         
-            <li><a class="toctree-l4" href="#clones">Clones</a></li>
+            <li><a class="toctree-l4" href="#visualizing-history">Visualizing history</a></li>
         
-            <li><a class="toctree-l4" href="#pulling-updates">Pulling updates</a></li>
+            <li><a class="toctree-l4" href="#branching-off">Branching off</a></li>
         
-            <li><a class="toctree-l4" href="#interpreting-conflicts">Interpreting conflicts</a></li>
+            <li><a class="toctree-l4" href="#merging">Merging</a></li>
         
-            <li><a class="toctree-l4" href="#resolving-conflicts">Resolving conflicts</a></li>
+            <li><a class="toctree-l4" href="#merge-conflicts">Merge conflicts</a></li>
         
-            <li><a class="toctree-l4" href="#uploading-changes">"Uploading" changes</a></li>
+            <li><a class="toctree-l4" href="#rebasing">Rebasing</a></li>
         
-            <li><a class="toctree-l4" href="#training-time">Training Time</a></li>
+            <li><a class="toctree-l4" href="#cherry-picking">Cherry-picking</a></li>
+        
+            <li><a class="toctree-l4" href="#mergerebasecherry-pick">Merge/Rebase/Cherry-pick</a></li>
         
         </ul>
     
 
     </ul>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../03_branching_and_merging/">Branching and Merging</a>
                 </li>
                 <li class="">
                     
@@ -129,10 +131,10 @@
         
       
     
-    <li>Central Repository</li>
+    <li>Branching and Merging</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/nome/FitForGit/edit/master/docs/02_central_repository.md"
+        <a href="https://github.com/nome/FitForGit/edit/master/docs/03_branching_and_merging.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -142,74 +144,89 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="central-repository">Central Repository</h1>
-<h2 id="clones">Clones</h2>
-<pre><code>git clone git@ffg:ffg/hello.git
-cd hello
-ls
-git status
+                <h1 id="branching-and-merging">Branching and Merging</h1>
+<h2 id="visualizing-history">Visualizing history</h2>
+<p>::::::::: {.columns}
+::: {.column width="30%"}
+<img alt="linear history" src="../img/git-branch.svg" />
+:::
+::: {.column width="70%" .textcolumn}
+    git log --graph --oneline</p>
+<pre><code>* 5567e85 (HEAD -&gt; master) My third git commit
+* df5a1e0 My second git commit
+* d3a1a32 My first git commit
 </code></pre>
-<p>This has created a <em>clone</em> of the <code>hello.git</code> repository. The repository we
-cloned from is called its <em>origin</em>.</p>
+<p>:::
+:::::::::</p>
+<h2 id="branching-off">Branching off</h2>
+<p>::::::::: {.columns}
+::: {.column width="30%"}
+<img alt="two branches" src="../img/git-branch-diverge.svg" />
+:::
+::: {.column width="70%" .textcolumn}
+    git branch feature master~2
+    git checkout feature
+    $EDITOR; git commit -a</p>
+<pre><code>* 16ae900 (feature) Commit on feature branch
+| * 5567e85 (master) My third git commit
+| * df5a1e0 My second git commit
+|/
+* d3a1a32 My first git commit
+</code></pre>
+<p>:::
+:::::::::</p>
+<h2 id="merging">Merging</h2>
+<p>::::::::: {.columns}
+::: {.column width="30%"}
+<img alt="merge" src="../img/git-branch-merge.svg" />
+:::
+::: {.column width="70%" .textcolumn}
+    git checkout master
+    git merge feature
+:::
+:::::::::</p>
+<h2 id="merge-conflicts">Merge conflicts</h2>
+<p>Git merges histories of the entire repository; until <em>all</em> conflicts are
+resolved and committed, the merge is "in progress" for all files.</p>
 <ul class="hints">
-<li> By convention, central ("bare") repositories have the suffix
-<code>.git</code>, while repositories we can make commits in do not.</li>
+<li>You can abort a merge in progress with `git merge --abort`</li>
 </ul>
 
-<h2 id="pulling-updates">Pulling updates</h2>
-<pre><code>git pull
-</code></pre>
-<p>. . .</p>
-<pre><code>*   8c577b0 Merge branch 'master' of ↵
-            http://ffg/gogs/ffg/hello.git
-|\  
-| * b983d4c Linux is also cool
-* | e8fa16e Start collecting numbers
-|/  
-* 3adcc80 My second git commit
-* b323f69 My first git commit
-</code></pre>
-<ul class="hints">
-<li> try `git log --graph --oneline`</li>
-</ul>
-
-<h2 id="interpreting-conflicts">Interpreting conflicts</h2>
-<pre><code>git pull
-</code></pre>
-<p>In <code>cool_stuff.txt</code>:</p>
-<pre><code class="conflict">Tübix
-Git
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-reveal.js
-=======
-Linux
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; b983d4cc25261780d3b2a21a142d4750394c5c77
-</code></pre>
-
-<h2 id="resolving-conflicts">Resolving conflicts</h2>
-<pre><code>git mergetool
-git commit
-</code></pre>
-<h2 id="uploading-changes">"Uploading" changes</h2>
-<pre><code>git push
-# ...
-# To git@ffg:ffg/hello.git
-#    d039e72..325b819  master -&gt; master
-
-git push
-# ...
-# To git@ffg:ffg/hello.git
-#  ! [rejected]        master -&gt; master (non-fast-forward)
-# error: failed to push some refs to 'git@ffg:ffg/hello.git'
-# ...
-</code></pre>
-<h2 id="training-time">Training Time</h2>
-<ol>
-<li>get a clone of <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#103;&#105;&#116;&#64;&#102;&#102;&#103;&#58;&#102;&#102;&#103;&#47;&#104;&#101;&#108;&#108;&#111;&#46;&#103;&#105;&#116;">&#103;&#105;&#116;&#64;&#102;&#102;&#103;&#58;&#102;&#102;&#103;&#47;&#104;&#101;&#108;&#108;&#111;&#46;&#103;&#105;&#116;</a></li>
-<li>add a new file to your clone</li>
-<li>upload your change and get the changes of other participants</li>
-<li>repeat with the file <code>cool_stuff.txt</code> (this should give conflits which you need to resolve)</li>
-</ol>
+<h2 id="rebasing">Rebasing</h2>
+<p>::::::::: {.columns}
+::: {.column width="30%"}
+<img alt="rebase" src="../img/git-branch-rebase.svg" />
+:::
+::: {.column width="70%" .textcolumn}
+    git checkout feature
+    git rebase master
+:::
+:::::::::</p>
+<h2 id="cherry-picking">Cherry-picking</h2>
+<p>::::::::: {.columns}
+::: {.column width="30%"}
+<img alt="cherry-pick" src="../img/git-cherry-pick.svg" />
+:::
+::: {.column width="70%" .textcolumn}
+    git checkout master
+    git cherry-pick feature
+:::
+:::::::::</p>
+<h2 id="mergerebasecherry-pick">Merge/Rebase/Cherry-pick</h2>
+<p>::::::::: {.columns}
+::: {.column width="25%"}
+<img alt="two branches" src="../img/git-branch-diverge.svg" />
+:::
+::: {.column width="25%"}
+<img alt="merge" src="../img/git-branch-merge.svg" />
+:::
+::: {.column width="25%"}
+<img alt="rebase" src="../img/git-branch-rebase.svg" />
+:::
+::: {.column width="25%"}
+<img alt="cherry-pick" src="../img/git-cherry-pick.svg" />
+:::
+:::::::::</p>
               
             </div>
           </div>
@@ -217,10 +234,10 @@ git push
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../03_branching_and_merging/" class="btn btn-neutral float-right" title="Branching and Merging">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../04_pull_requests/" class="btn btn-neutral float-right" title="Pull Requests">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../01_recording_changes/" class="btn btn-neutral" title="Recording Changes"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../02_central_repository/" class="btn btn-neutral" title="Central Repository"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -248,10 +265,10 @@ git push
           <a href="https://github.com/nome/FitForGit/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../01_recording_changes/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../02_central_repository/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../03_branching_and_merging/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../04_pull_requests/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

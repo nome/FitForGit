@@ -13,19 +13,20 @@
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="../css/highlight.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
   <link href="../ffg.css" rel="stylesheet">
   
   <script>
     // Current page data
     var mkdocs_page_name = "Recording Changes";
     var mkdocs_page_input_path = "01_recording_changes.md";
-    var mkdocs_page_url = "/01_recording_changes/";
+    var mkdocs_page_url = null;
   </script>
   
-  <script src="../js/jquery-2.1.1.min.js"></script>
-  <script src="../js/modernizr-2.8.3.min.js"></script>
-  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
   
 </head>
 
@@ -39,7 +40,7 @@
         <a href=".." class="icon icon-home"> Fit for Git</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -74,6 +75,8 @@
         
             <li><a class="toctree-l4" href="#committing-to-a-version">Committing (to) a version</a></li>
         
+            <li><a class="toctree-l4" href="#viewing-history">Viewing history</a></li>
+        
             <li><a class="toctree-l4" href="#the-why-of-commit-messages">The why of commit messages</a></li>
         
             <li><a class="toctree-l4" href="#the-how-of-commit-messages">The how of commit messages</a></li>
@@ -91,7 +94,15 @@
                 </li>
                 <li class="">
                     
-    <a class="" href="../03_pull_requests/">Pull Requests</a>
+    <a class="" href="../03_branching_and_merging/">Branching and Merging</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../04_pull_requests/">Pull Requests</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../05_rewriting_history/">Rewriting History</a>
                 </li>
     </ul>
 	    </li>
@@ -142,7 +153,7 @@ git config --global user.email user@domain.tld
 </code></pre>
 <p>Git is a distributed system, so it uses email addresses to uniquely identify users.</p>
 <ul class="hints">
-<li> try <code>git help config</code></li>
+<li> try `git help config`</li>
 </ul>
 
 <h2 id="creating-a-repository">Creating a repository</h2>
@@ -155,35 +166,41 @@ now).</p>
 git status
 </code></pre>
 <ul class="hints">
-<li> run <code>git init</code> without argument to start tracking existing files in <code>./</code></li>
+<li> run `git init` without argument to start tracking existing files in `./`</li>
 </ul>
 
 <h2 id="staging-changes">Staging changes</h2>
 <pre><code>git add cool_stuff.txt
 git status
 </code></pre>
-<hr />
-<p><strong>file</strong> <strong>&rarr;</strong> <strong>staging area</strong> &rarr; HEAD</p>
-<hr />
-<p>. . .</p>
-<p>The staging area can track only one version of each file, so we're not done yet.</p>
+<p><img alt="" src="../img/git-add.svg" /></p>
 <ul class="hints">
-<li> you can also add entire directories with <code>git add</code></li>
+<li> you can also add entire directories with `git add`</li>
+<li> make changes in different parts of a file and try `git add -p`</li>
 </ul>
+
+<div class="notes"><ul>
+<li>The staging area can track only one version of each file, so we're not done yet.</li>
+</ul></div>
 
 <h2 id="committing-to-a-version">Committing (to) a version</h2>
 <pre><code>git commit
 git status
 </code></pre>
-<hr />
-<p>file &rarr; <strong>staging area</strong> <strong>&rarr;</strong> <strong>HEAD</strong></p>
-<hr />
-<pre><code>gitk
-</code></pre>
+<p><img alt="" src="../img/git-commit.svg" /></p>
 <ul class="hints">
-<li> you can skip <code>git add</code> for files known to Git using <code>git commit -a</code></li>
+<li> you can skip `git add` for files known to Git using `git commit -a`</li>
 </ul>
 
+<h2 id="viewing-history">Viewing history</h2>
+<hr />
+<p><code>gitk</code>    GUI     separate tool
+<code>tig</code>     ncurses separate tool
+<code>git log</code> text    included in git</p>
+<hr />
+<p>Every commit contains a snapshot of the entire repository; unlike checkins in
+RCS or Subversion, which operate on individual files or directories,
+respectively.</p>
 <h2 id="the-why-of-commit-messages">The why of commit messages</h2>
 <ul>
 <li>the who/when/what of a change is recorded automatically</li>
@@ -201,7 +218,7 @@ this commit?
 If applicable: Which alternatives were considered, and why
 were they discarded?
 
-If applicable: Reference to #bugid
+Closes #bugid.
 </code></pre>
 
 <h2 id="training-time">Training Time</h2>
@@ -214,8 +231,8 @@ git config --global user.email user@domain.tld
 <li>view the resulting history</li>
 </ol>
 <ul class="hints">
-<li> Try <code>git revert HEAD~1</code>. What does it do? Can you revert other changes?</li>
-<li> Look at the contents of the <code>.git</code> directory - what changes at each step?</li>
+<li> Try `git revert HEAD~1`. What does it do? Can you revert other changes?</li>
+<li> Look at the contents of the `.git` directory - what changes at each step?</li>
 </ul>
               
             </div>
@@ -241,18 +258,18 @@ git config --global user.email user@domain.tld
 
   Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
-	  
+      
         </div>
       </div>
 
     </section>
-    
+
   </div>
 
   <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
-          <a href="https://github.com/nome/FitForGit" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+          <a href="https://github.com/nome/FitForGit/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
         <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
@@ -262,7 +279,9 @@ git config --global user.email user@domain.tld
       
     </span>
 </div>
-    <script src="../js/theme.js"></script>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
 
 </body>
 </html>
