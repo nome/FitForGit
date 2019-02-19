@@ -6,7 +6,7 @@ sudo: required
 install:
   - sudo pip install ansible mkdocs
   - echo localhost >> settings.ini
-  - ansible-galaxy install -r ansible/requirements.yml
+  - ansible-galaxy install -c -r ansible/requirements.yml
 
 script:
   - ssh-keygen -t rsa -f ~/.ssh/id_rsa -N "" -q
