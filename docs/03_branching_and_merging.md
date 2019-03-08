@@ -11,9 +11,9 @@ Visualizing history
 ::: {.column width="70%" .textcolumn}
     git log --graph --oneline
 
-    * 5567e85 (HEAD -> master) My third git commit
-    * df5a1e0 My second git commit
-    * d3a1a32 My first git commit
+    * 5567e85 (HEAD -> master) commit c
+    * df5a1e0 commit b
+    * d3a1a32 commit a
 :::
 :::::::::
 
@@ -29,11 +29,28 @@ Branching off
     git checkout feature
     $EDITOR; git commit -a
 
-    * 16ae900 (feature) Commit on feature branch
-    | * 5567e85 (master) My third git commit
-    | * df5a1e0 My second git commit
+    * 16ae900 (feature) feature commit d
+    | * 5567e85 (master) commit c
+    | * df5a1e0 commit b
     |/
-    * d3a1a32 My first git commit
+    * d3a1a32 commit a
+:::
+:::::::::
+
+Listing branches
+----------------
+
+::::::::: {.columns}
+::: {.column width="30%"}
+![two branches](img/git-branch-diverge.svg)
+:::
+::: {.column width="70%" .textcolumn}
+    git branch
+  
+    master
+    * feature
+
+The current branch (`feature`) is marked with a `*`. It is also referred to as `HEAD`.
 :::
 :::::::::
 
@@ -47,6 +64,9 @@ Merging
 ::: {.column width="70%" .textcolumn}
     git checkout master
     git merge feature
+
+* all changes in `feature` are added to `master`
+* parallel histories are preserved
 :::
 :::::::::
 
@@ -70,6 +90,10 @@ Rebasing
 ::: {.column width="70%" .textcolumn}
     git checkout feature
     git rebase master
+
+* all changes in `feature` are re-committed against `master`
+* => conflicts may have to be resolved multiple times
+* result is similar to merge, but looks as if `feature` development had started on top of current `master`
 :::
 :::::::::
 
@@ -83,6 +107,9 @@ Cherry-picking
 ::: {.column width="70%" .textcolumn}
     git checkout master
     git cherry-pick feature
+
+* only specific changes are re-committed against `master`
+* useful for backporting bugfixes to a release branch
 :::
 :::::::::
 
@@ -103,3 +130,6 @@ Merge/Rebase/Cherry-pick
 ![cherry-pick](img/git-cherry-pick.svg)
 :::
 :::::::::
+
+Training Time
+-------------
