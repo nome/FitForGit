@@ -1,0 +1,20 @@
+kind: pipeline
+name: default
+
+steps:
+- name: slides
+  image: pandoc/core:latest
+  volumes:
+  - name: www
+    path: /www
+  commands:
+    - pandoc -s -t revealjs --css=reveal.js/css/reveal.css -V theme=white -V transition=slide --css=reveal.js/css/theme/white.css --css=ffg.slides.css docs/slidestart.md docs/0* -o /www/slides.html
+#    - mkdocs build
+  when:
+    branch:
+    - master
+
+volumes:
+- name: www
+  host:
+    path:${FFG_DIR}/www
