@@ -59,7 +59,6 @@ services:
       - DRONE_HOST=http://${FFG_DOMAIN}/drone
       - DRONE_GITEA_SERVER=http://gitea:3000
       - DRONE_GIT_ALWAYS_AUTH=false
-        # openssl rand -hex 16
       - DRONE_RPC_SECRET=${S_DRONE_SECRET}
 #      - DRONE_NETWORK=gitea_default
 
